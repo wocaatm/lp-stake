@@ -3,7 +3,9 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Tip from './components/tip'
 import Stake from './components/stake'
 import { ssrTool } from './config'
+
 export default function Home() {
+  // 获取质押pool数据
   return (
     <div>
       <div className='container mx-auto flex justify-between items-center p-4 h-16 bg-white'>
