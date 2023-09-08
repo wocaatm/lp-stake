@@ -103,6 +103,7 @@ async function checkLpStaked(list: NftInfo[], nftAddress: string, wallet: string
 async function queryUserCollections(address: string, collectionAddress: string) {
   const data = await alchemyI.nft.getNftsForOwner(address, { contractAddresses: [collectionAddress] })
   return data.ownedNfts.map(item => {
+    console.log(item)
     return {
       tokenId: item.tokenId,
       isStaked: false,
@@ -138,7 +139,7 @@ export default function Stake(props: Props) {
       <div className='flex items-center'>
         <Image
           className='w-20 h-20 rounded-full'
-          src="/ssr.jpeg"
+          src="https://i.seadn.io/gcs/files/fd0ceaba22ba55e8f6a44166007adc9c.jpg?auto=format&dpr=4&w=128"
           alt="ssr image"
           width={80}
           height={80}
