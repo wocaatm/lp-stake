@@ -1,14 +1,16 @@
-import { useEffect, useMemo } from "react"
-import type { NftInfo, Refresh } from '../interface'
+import { useEffect, useState } from "react"
+import type { Refresh } from '../interface'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi"
-import { MamiStake, LpStake, SsrTool } from '../config/contract'
+import { LpStake } from '../config/contract'
 import Loading from './loading'
+import Selector from './selector'
 
 interface Props extends Refresh {
   stakeLpTokenList: string[]
 }
 
 export default function UnStakeBtn(props: Props) {
+  const [showSelector, setShowSelector] = useState(false)
   // unstake reward
   const { config } = usePrepareContractWrite({
     address: LpStake.address,
@@ -26,9 +28,12 @@ export default function UnStakeBtn(props: Props) {
   }, [isSuccess, props])
   
   return (
-    <div className="px-2 py-1 bg-red-500 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && write?.() }}>
-      { isLoading && <Loading /> }
-      取消质押
-    </div>
+    <>
+      { showSelector && <Selector tokenIds={props.stakeLpTokenList} /> }
+      <div className="px-2 py-1 bg-red-500 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && setShowSelector(true) }}>
+        { isLoading && <Loading /> }
+        取消质押
+      </div>
+    </>
   )
 }

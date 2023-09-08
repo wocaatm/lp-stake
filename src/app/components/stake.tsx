@@ -4,12 +4,13 @@ import { alchemyI, ssrTool } from '../config'
 import { readContracts, useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import Image from 'next/image'
 import StakeItem from './stakeItem'
-import { MamiStake, LpStake, SsrTool } from '../config/contract'
+import { MamiStake, LpStake, Lmc } from '../config/contract'
 import { readContract } from '@wagmi/core'
 import StakeOperation from './stakeOperation'
 import type { NftInfo, Refresh } from '../interface'
 import EmptyReward from './emptyReward'
 import BlockLoading from './blockLoading';
+import { formatEther } from 'viem'
 interface Props extends Refresh {
   title: string
   contractAddress: string
@@ -134,6 +135,17 @@ export default function Stake(props: Props) {
     }
   }, [address, props.contractAddress])
 
+  // query max stake count
+  const { data } = useContractRead({
+    address: Lmc.address,
+    abi: Lmc.abi,
+    functionName: 'balanceOf',
+    args: [LpStake.address]
+  })
+  const maxCount = useMemo(() => {
+    return Math.floor((Number(formatEther(data as any)) / 23000))
+  }, [data])
+
   return (
     <div className='w-full mx-4 bg-white rounded-lg p-4 relative'>
       <BlockLoading key={props.rederKey} />
@@ -171,7 +183,8 @@ export default function Stake(props: Props) {
           <StakeItem key={t.tokenId} {...t} nftName='LMC TOOL SSR' />
         )) : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
       </div>
-      }  
+      }
+      <div className='bg-red-500 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个Ssr质押，质押数量多于{maxCount}个会导致质押失败！！</div>
     </div>
   )
 }
