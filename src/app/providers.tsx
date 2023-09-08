@@ -26,7 +26,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider(), alchemyProvider({ apiKey: alchemyKey })]
 );
 
-const projectId = 'YOUR_PROJECT_ID';
+const projectId = 'f3f400364841544ae98a0e555c4e4c28';
 
 const { wallets } = getDefaultWallets({
   appName: 'RainbowKit demo',
