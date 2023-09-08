@@ -1,10 +1,10 @@
-import { useMemo } from "react"
-import type { NftInfo } from '../interface'
+import { useEffect, useMemo } from "react"
+import type { NftInfo, Refresh } from '../interface'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi"
 import { MamiStake, LpStake, SsrTool } from '../config/contract'
 import Loading from './loading'
 
-interface Props {
+interface Props extends Refresh {
   tokens: NftInfo[]
 }
 
@@ -23,6 +23,10 @@ export default function StakeBtn(props: Props) {
   const { isLoading: isStakeLoading, isSuccess: isStakeSuccess } = useWaitForTransaction({
     hash: stakeData?.hash
   })
+  useEffect(() => {
+    if (isStakeSuccess) props.setKey(props.rederKey + 1)
+  }, [isStakeSuccess, props])
+  if (!unStakeTokenList.length) return null
   return (
     <div className="px-2 py-1 bg-zinc-800 rounded-lg text-white shadow-sm text-sm mr-2 flex items-center" onClick={() => { !isStakeLoading && stake?.() }}>
       { isStakeLoading && <Loading /> }

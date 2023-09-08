@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { alchemyI, ssrTool } from '../config'
 import { readContracts, useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import Image from 'next/image'
@@ -9,6 +9,7 @@ import { readContract } from '@wagmi/core'
 import StakeOperation from './stakeOperation'
 import type { NftInfo, Refresh } from '../interface'
 import EmptyReward from './emptyReward'
+import BlockLoading from './blockLoading';
 interface Props extends Refresh {
   title: string
   contractAddress: string
@@ -113,9 +114,9 @@ async function queryUserCollections(address: string, collectionAddress: string) 
 }
 
 export default function Stake(props: Props) {
-  console.log('666')
   const { address, isConnected } = useAccount()
   const [tokens, setTokens] = useState<NftInfo[]>([])
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     if (address) {
@@ -127,15 +128,17 @@ export default function Stake(props: Props) {
           return checkLpStaked(list, props.contractAddress, address)
         })
         .then(list => {
+          setLoaded(true)
           setTokens(list)
         })
     }
   }, [address, props.contractAddress])
 
   return (
-    <div className='w-full mx-4 bg-white rounded-lg p-4'>
+    <div className='w-full mx-4 bg-white rounded-lg p-4 relative'>
+      <BlockLoading key={props.rederKey} />
       <div className='flex justify-between items-center mb-4'>
-        <div className='text-2xl font-bold'>{ props.title }</div>
+        <div className='text-2xl font-bold'>{ props.title }质押</div>
         <div className="px-2 py-1 text-rose-400 text-sm flex items-center" onClick={() => { props.setKey(props.rederKey + 1) }}>
           刷新
         </div>
@@ -163,10 +166,10 @@ export default function Stake(props: Props) {
           <StakeOperation tokens={tokens} rederKey={props.rederKey} setKey={props.setKey} />
         }
       </div>
-      { isConnected && tokens.length > 0 && <div className='mt-4'>
-        { tokens.map(t => (
+      { loaded && <div className='mt-4'>
+        { tokens.length > 0 ? tokens.map(t => (
           <StakeItem key={t.tokenId} {...t} nftName='LMC TOOL SSR' />
-        )) }
+        )) : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
       </div>
       }  
     </div>

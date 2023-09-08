@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from "react"
-import type { NftInfo } from '../interface'
+import type { NftInfo, Refresh } from '../interface'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi"
 import { MamiStake, LpStake, SsrTool } from '../config/contract'
 import Loading from './loading'
 
-interface Props {
+interface Props extends Refresh {
   stakeLpTokenList: string[]
 }
 
@@ -22,8 +22,8 @@ export default function UnStakeBtn(props: Props) {
   })
 
   useEffect(() => {
-    if (isSuccess) alert('取消质押成功!')
-  }, [isSuccess])
+    if (isSuccess) props.setKey(props.rederKey + 1)
+  }, [isSuccess, props])
   
   return (
     <div className="px-2 py-1 bg-red-500 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && write?.() }}>

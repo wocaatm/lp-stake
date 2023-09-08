@@ -58,9 +58,9 @@ export default function StakeOperation(props: Props) {
         isApprovedForAll ?
           (
             <div className='flex mt-2'>
-              { stakeLpTokenList.length > 0 && <ClaimBtn stakeLpTokenList={stakeLpTokenList} /> }
-              <StakeBtn tokens={props.tokens} />
-              { stakeLpTokenList.length > 0 && <UnStakeBtn stakeLpTokenList={stakeLpTokenList} /> }
+              { stakeLpTokenList.length > 0 && <ClaimBtn stakeLpTokenList={stakeLpTokenList} {...props} /> }
+              <StakeBtn {...props} />
+              { stakeLpTokenList.length > 0 && <UnStakeBtn stakeLpTokenList={stakeLpTokenList} {...props} /> }
             </div>
           ) :
           (
