@@ -30,7 +30,7 @@ export default function UnStakeBtn(props: Props) {
   return (
     <>
       { showSelector && <Selector tokenIds={props.stakeLpTokenList} /> }
-      <div className="px-2 py-1 bg-red-500 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && setShowSelector(true) }}>
+      <div className="px-2 py-1 bg-red-500 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && write?.() }}>
         { isLoading && <Loading /> }
         取消质押
       </div>
