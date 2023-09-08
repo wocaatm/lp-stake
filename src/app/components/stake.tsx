@@ -7,9 +7,9 @@ import StakeItem from './stakeItem'
 import { MamiStake, LpStake, SsrTool } from '../config/contract'
 import { readContract } from '@wagmi/core'
 import StakeOperation from './stakeOperation'
-import type { NftInfo } from '../interface'
+import type { NftInfo, Refresh } from '../interface'
 import EmptyReward from './emptyReward'
-interface Props {
+interface Props extends Refresh {
   title: string
   contractAddress: string
 }
@@ -113,6 +113,7 @@ async function queryUserCollections(address: string, collectionAddress: string) 
 }
 
 export default function Stake(props: Props) {
+  console.log('666')
   const { address, isConnected } = useAccount()
   const [tokens, setTokens] = useState<NftInfo[]>([])
 
@@ -132,9 +133,12 @@ export default function Stake(props: Props) {
   }, [address, props.contractAddress])
 
   return (
-    <div className='w-full mx-4 bg-white mt-4 rounded-lg p-4'>
+    <div className='w-full mx-4 bg-white rounded-lg p-4'>
       <div className='flex justify-between items-center mb-4'>
         <div className='text-2xl font-bold'>{ props.title }</div>
+        <div className="px-2 py-1 text-rose-400 text-sm flex items-center" onClick={() => { props.setKey(props.rederKey + 1) }}>
+          刷新
+        </div>
       </div>
       <div className='flex items-center'>
         <Image
@@ -156,7 +160,7 @@ export default function Stake(props: Props) {
             </div>
           )
           :
-          <StakeOperation tokens={tokens} />
+          <StakeOperation tokens={tokens} rederKey={props.rederKey} setKey={props.setKey} />
         }
       </div>
       { isConnected && tokens.length > 0 && <div className='mt-4'>

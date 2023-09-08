@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
-import type { NftInfo } from '../interface'
+import type { NftInfo, Refresh } from '../interface'
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
-import { MamiStake, LpStake, SsrTool } from '../config/contract'
+import { LpStake, SsrTool } from '../config/contract'
 import StakeReward from './stakeReward'
 import Loading from './loading'
 import StakeBtn from './stakeBtn'
@@ -9,7 +9,7 @@ import ClaimBtn from './claimBtn'
 import EmptyReward from './emptyReward'
 import UnStakeBtn from './unStakeBtn'
 
-interface Props {
+interface Props extends Refresh {
   tokens: NftInfo[]
 }
 
@@ -22,7 +22,7 @@ export default function StakeOperation(props: Props) {
   }, [props.tokens])
 
   // approve block
-  const { data: isApprovedForAll, refetch: approveFetch } = useContractRead({
+  const { data: isApprovedForAll } = useContractRead({
     abi: SsrTool.abi,
     address: SsrTool.address,
     functionName: 'isApprovedForAll',
@@ -41,8 +41,10 @@ export default function StakeOperation(props: Props) {
     hash: approveData?.hash
   })
   useEffect(() => {
-    if (isSuccess) approveFetch()
-  }, [isSuccess, approveFetch])
+    if (isSuccess) {
+      props.setKey(props.rederKey + 1)
+    }
+  }, [isSuccess, props])
 
   return (
     <div className='flex-1 ml-4'>

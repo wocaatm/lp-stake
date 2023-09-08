@@ -24,7 +24,7 @@ export default function StakeBtn(props: Props) {
     hash: stakeData?.hash
   })
   return (
-    <div className="px-2 py-1 bg-zinc-800 rounded-lg text-white shadow-sm text-sm mx-2 flex items-center" onClick={() => { !isStakeLoading && stake?.() }}>
+    <div className="px-2 py-1 bg-zinc-800 rounded-lg text-white shadow-sm text-sm mr-2 flex items-center" onClick={() => { !isStakeLoading && stake?.() }}>
       { isStakeLoading && <Loading /> }
       质押
     </div>

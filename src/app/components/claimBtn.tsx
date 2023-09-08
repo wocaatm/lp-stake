@@ -26,7 +26,7 @@ export default function ClaimBtn(props: Props) {
   }, [isSuccess])
   
   return (
-    <div className="px-2 py-1 bg-emerald-400 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && write?.() }}>
+    <div className="px-2 py-1 bg-emerald-400 rounded-lg text-white shadow-sm text-sm mr-2 flex items-center" onClick={() => { !isLoading && write?.() }}>
       { isLoading && <Loading /> }
       领取
     </div>

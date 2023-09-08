@@ -3,8 +3,10 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Tip from './components/tip'
 import Stake from './components/stake'
 import { ssrTool } from './config'
+import { useState } from 'react';
 
 export default function Home() {
+  const [key, setKey] = useState(0)
   // 获取质押pool数据
   return (
     <div>
@@ -18,9 +20,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='container mx-auto flex flex-wrap mt-4'>
+      <div className='container mx-auto flex flex-wrap mt-4 pb-4'>
+        <Stake title='Ssr tool质押' contractAddress={ssrTool.goerli} setKey={setKey} rederKey={key} key={key} />
         <Tip />
-        <Stake title='Ssr tool质押' contractAddress={ssrTool.goerli} />
       </div>
     </div>
   )

@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function StakeReward(props: Props) {
-  const { data: rewardsData, refetch } = useContractRead({
+  const { data: rewardsData } = useContractRead({
     address: LpStake.address,
     abi: LpStake.abi,
     functionName: 'getRewardsAmount',
@@ -29,9 +29,6 @@ export default function StakeReward(props: Props) {
       <p>总收益：{ rewardsData?.length ? formatEther(rewardsData?.[0]) : 0 } lmc</p>
       <p>白嫖：{ rewardsData?.length ? formatEther(rewardsData?.[1]) : 0 } lmc</p>
       <p>收益率：<span className='font-bold text-emerald-400'>{ precent }%</span></p>
-      <div className="absolute top-0 right-0 px-2 py-1 bg-rose-400 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={ () => { refetch?.() } }>
-        刷新
-      </div>
     </div>
   )
 }
