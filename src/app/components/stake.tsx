@@ -143,7 +143,9 @@ export default function Stake(props: Props) {
     args: [LpStake.address]
   })
   const maxCount = useMemo(() => {
-    return Math.floor((Number(formatEther(data as any)) / 23000))
+    if (data) {
+      return Math.floor((Number(formatEther(data as any)) / 23000))
+    }
   }, [data])
 
   return (
@@ -184,7 +186,7 @@ export default function Stake(props: Props) {
         )) : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
       </div>
       }
-      <div className='bg-red-500 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个Ssr质押，质押数量多于{maxCount}个会导致质押失败！！</div>
+      { data && <div className='bg-red-500 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个Ssr质押，质押数量多于{maxCount}个会导致质押失败！！</div> }
     </div>
   )
 }
