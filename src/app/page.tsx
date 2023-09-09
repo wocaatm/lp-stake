@@ -21,7 +21,7 @@ export default function Home() {
       </div>
 
       <div className='container mx-auto flex flex-wrap mt-4 pb-4'>
-        <Stake title='Ssr tool' contractAddress={ssrTool.goerli} setKey={setKey} rederKey={key} key={key} />
+        <Stake title='SSR TOOL' contractAddress={ssrTool.goerli} setKey={setKey} rederKey={key} key={key} />
         <Tip />
       </div>
     </div>

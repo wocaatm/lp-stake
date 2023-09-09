@@ -26,8 +26,8 @@ export default function StakeReward(props: Props) {
 
   return (
     <div className='text-sm relative'>
-      <p>总收益：{ rewardsData?.length ? formatEther(rewardsData?.[0]) : 0 } lmc</p>
-      <p>白嫖：{ rewardsData?.length ? formatEther(rewardsData?.[1]) : 0 } lmc</p>
+      <p>总收益：{ rewardsData?.length ? formatEther(rewardsData?.[0]) : 0 } LMC</p>
+      <p>白嫖：{ rewardsData?.length ? formatEther(rewardsData?.[1]) : 0 } LMC</p>
       <p>收益率：<span className='font-bold text-emerald-400'>{ precent }%</span></p>
     </div>
   )

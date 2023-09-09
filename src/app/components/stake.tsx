@@ -153,7 +153,7 @@ export default function Stake(props: Props) {
       <BlockLoading key={props.rederKey} />
       <div className='flex justify-between items-center mb-4'>
         <div className='text-2xl font-bold'>{ props.title }质押</div>
-        <div className="px-2 py-1 text-rose-400 text-sm flex items-center" onClick={() => { props.setKey(props.rederKey + 1) }}>
+        <div className="px-2 py-1 text-zinc-800 text-sm flex items-center" onClick={() => { props.setKey(props.rederKey + 1) }}>
           刷新
         </div>
       </div>
@@ -186,7 +186,7 @@ export default function Stake(props: Props) {
         )) : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
       </div>
       }
-      { data && <div className='bg-red-500 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个Ssr质押，质押数量多于{maxCount}个会导致质押失败！！</div> }
+      { data && <div className='bg-zinc-800 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个SSR质押，质押数量多于{maxCount}个会导致质押失败！！</div> }
     </div>
   )
 }
