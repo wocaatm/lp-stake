@@ -12,7 +12,7 @@ export default function Tip() {
       <div className='bg-emerald-400 p-4 rounded-lg mt-4'>
         <p>⚠️ 为什么要参与质押？</p>
         <ol className='list-disc ml-8 text-sm mt-4'>
-          <li>SSR TOOL第一期质押数据显示，参与LP质押的LMC收益（256LMC）比单卡收益（198LMC）<span className='underline decoration-red-500 text-lg'>29%</span></li>
+          <li>SSR TOOL第一期质押数据显示，参与LP质押的LMC收益（256LMC）比单卡收益（198LMC）<span className='underline decoration-red-500 text-lg'>29%</span>，第二期只会更高</li>
           <li>第二期质押要收取GAS费，组LP白嫖的LMC代币能涵盖所有GAS还能白嫖部分收益</li>
         </ol>
         <p className="mt-4">⚠️ 名词解释</p>

@@ -20,7 +20,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='container mx-auto flex flex-wrap mt-4 pb-4'>
+      <div className='container mx-auto flex flex-wrap mt-4 pb-4 md:max-w-2xl'>
         <Stake title='SSR TOOL' contractAddress={SsrTool.address} setKey={setKey} rederKey={key} key={key} />
         <Tip />
       </div>
