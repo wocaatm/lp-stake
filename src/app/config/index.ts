@@ -9,7 +9,3 @@ const settings = {
 };
 
 export const alchemyI = new Alchemy(settings);
-
-export const ssrTool = {
-  goerli: "0x7023ba9cfa134e5c781a9278fc7486467b221d5e",
-}

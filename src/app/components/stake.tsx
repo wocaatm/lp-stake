@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { alchemyI, ssrTool } from '../config'
+import { alchemyI } from '../config'
 import { readContracts, useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import Image from 'next/image'
 import StakeItem from './stakeItem'
@@ -181,9 +181,17 @@ export default function Stake(props: Props) {
         }
       </div>
       { loaded && <div className='mt-4'>
-        { tokens.length > 0 ? tokens.map(t => (
-          <StakeItem key={t.tokenId} {...t} nftName='LMC TOOL SSR' />
-        )) : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
+        { tokens.length > 0 ? 
+          (
+            <ul className='list-decimal ml-6'>
+              {
+                tokens.map(t => (
+                  <StakeItem key={t.tokenId} {...t} nftName='LMC TOOL SSR' />
+                ))
+              }
+            </ul>
+          )
+        : <div className='text-gray-500 text-sm'>未持有{ props.title }，请先购买！！</div> }
       </div>
       }
       { data && <div className='bg-zinc-800 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个SSR质押，质押数量多于{maxCount}个会导致质押失败！！</div> }

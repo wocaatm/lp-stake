@@ -2,7 +2,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Tip from './components/tip'
 import Stake from './components/stake'
-import { ssrTool } from './config'
+import { SsrTool } from './config/contract'
 import { useState } from 'react';
 
 export default function Home() {
@@ -21,7 +21,7 @@ export default function Home() {
       </div>
 
       <div className='container mx-auto flex flex-wrap mt-4 pb-4'>
-        <Stake title='SSR TOOL' contractAddress={ssrTool.goerli} setKey={setKey} rederKey={key} key={key} />
+        <Stake title='SSR TOOL' contractAddress={SsrTool.address} setKey={setKey} rederKey={key} key={key} />
         <Tip />
       </div>
     </div>
