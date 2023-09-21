@@ -11,6 +11,8 @@ import UnStakeBtn from './unStakeBtn'
 
 interface Props extends Refresh {
   tokens: NftInfo[]
+  poolId: number
+  nftName: string
 }
 
 export default function StakeOperation(props: Props) {
@@ -50,7 +52,7 @@ export default function StakeOperation(props: Props) {
     <div className='flex-1 ml-4'>
       {
         stakeLpTokenList.length ?
-          <StakeReward stakeLpTokenList={stakeLpTokenList} />
+          <StakeReward stakeLpTokenList={stakeLpTokenList} poolId={props.poolId} />
           :
           <EmptyReward />
       }

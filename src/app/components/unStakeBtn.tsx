@@ -8,6 +8,8 @@ import { writeContract, prepareWriteContract, waitForTransaction } from "@wagmi/
 
 interface Props extends Refresh {
   stakeLpTokenList: string[]
+  poolId: number
+  nftName: string
 }
 
 export default function UnStakeBtn(props: Props) {
@@ -21,7 +23,7 @@ export default function UnStakeBtn(props: Props) {
       abi: LpStake.abi,
       address: LpStake.address,
       functionName: 'unStake',
-      args: [0, tokenIds, tokenIds]
+      args: [props.poolId, tokenIds, tokenIds]
     })
     const { hash } = await writeContract(config)
     await waitForTransaction({
@@ -37,7 +39,7 @@ export default function UnStakeBtn(props: Props) {
   
   return (
     <>
-      { showSelector && <Selector nftName="LMC SSR TOOL" title="请选择取消质押的SSR" tokenIds={props.stakeLpTokenList} action={action} close={close} /> }
+      { showSelector && <Selector nftName={props.nftName} title="请选择取消质押的token" tokenIds={props.stakeLpTokenList} action={action} close={close} /> }
       <div className="px-2 py-1 bg-zinc-800 rounded-lg text-white shadow-sm text-sm flex items-center" onClick={() => { !isLoading && setShowSelector(true) }}>
         { isLoading && <Loading /> }
         取消质押

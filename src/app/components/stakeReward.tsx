@@ -4,6 +4,7 @@ import { formatEther } from 'viem'
 import { useMemo } from 'react'
 interface Props {
   stakeLpTokenList: string[]
+  poolId: number
 }
 
 export default function StakeReward(props: Props) {
@@ -11,7 +12,7 @@ export default function StakeReward(props: Props) {
     address: LpStake.address,
     abi: LpStake.abi,
     functionName: 'getRewardsAmount',
-    args: [0, props.stakeLpTokenList]
+    args: [props.poolId, props.stakeLpTokenList]
   })
 
   const precent = useMemo(() => {

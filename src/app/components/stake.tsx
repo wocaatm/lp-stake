@@ -15,6 +15,11 @@ import Loading from './loading'
 interface Props extends Refresh {
   title: string
   contractAddress: string
+  poolId: number
+  sharePoolId: number
+  needLmcAmount: number
+  nftImage: string
+  nftName: string
 }
 
 const isStakedFetch = {
@@ -23,7 +28,7 @@ const isStakedFetch = {
 }
 
 // check offical stake status
-async function checkOfficalStaked(list: NftInfo[]): Promise<NftInfo[]> {
+async function checkOfficalStaked(list: NftInfo[], poolId: number, sharePoolId: number): Promise<NftInfo[]> {
   let result: NftInfo[] = list
   
   if (list.length) {
@@ -33,12 +38,12 @@ async function checkOfficalStaked(list: NftInfo[]): Promise<NftInfo[]> {
           {
             ...isStakedFetch,
             functionName: 'poolStakes',
-            args: [0, item.tokenId]
+            args: [poolId, item.tokenId]
           },
           {
             ...isStakedFetch,
             functionName: 'poolStakes',
-            args: [1, item.tokenId]
+            args: [sharePoolId, item.tokenId]
           }
         ]
       })
@@ -122,7 +127,7 @@ export default function Stake(props: Props) {
     if (address) {
       queryUserCollections(address, props.contractAddress)
         .then(list => {
-          return checkOfficalStaked(list)
+          return checkOfficalStaked(list, props.poolId, props.sharePoolId)
         })
         .then(list => {
           return checkLpStaked(list, props.contractAddress, address)
@@ -132,7 +137,7 @@ export default function Stake(props: Props) {
           setTokens(list)
         })
     }
-  }, [address, props.contractAddress])
+  }, [address, props])
 
   // query max stake count
   const { data } = useContractRead({
@@ -143,9 +148,9 @@ export default function Stake(props: Props) {
   })
   const maxCount = useMemo(() => {
     if (data) {
-      return Math.floor((Number(formatEther(data as any)) / 23000))
+      return Math.floor((Number(formatEther(data as any)) / props.needLmcAmount))
     }
-  }, [data])
+  }, [data, props.needLmcAmount])
 
   return (
     <div className='w-full mx-4 bg-white rounded-lg p-4 relative'>
@@ -159,8 +164,8 @@ export default function Stake(props: Props) {
       <div className='flex items-center'>
         <Image
           className='w-20 h-20 rounded-full'
-          src="https://i.seadn.io/gcs/files/fd0ceaba22ba55e8f6a44166007adc9c.jpg?auto=format&dpr=4&w=128"
-          alt="ssr image"
+          src={props.nftImage}
+          alt="nft image"
           width={80}
           height={80}
           priority
@@ -176,7 +181,7 @@ export default function Stake(props: Props) {
             </div>
           )
           :
-          <StakeOperation tokens={tokens} rederKey={props.rederKey} setKey={props.setKey} />
+          <StakeOperation tokens={tokens} {...props} />
         }
       </div>
       { loaded ? 
@@ -186,7 +191,7 @@ export default function Stake(props: Props) {
               <ul className='list-decimal ml-6'>
                 {
                   tokens.map(t => (
-                    <StakeItem key={t.tokenId} {...t} nftName='LMC TOOL SSR' />
+                    <StakeItem key={t.tokenId} {...t} nftName={props.nftName} />
                   ))
                 }
               </ul>

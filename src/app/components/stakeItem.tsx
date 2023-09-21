@@ -1,12 +1,6 @@
-import { MamiStake } from '../config/contract'
 import type { NftInfo } from '../interface'
 
 interface Props extends NftInfo {
-}
-
-const isStakedFetch = {
-  address: MamiStake.address,
-  abi: MamiStake.abi,
 }
 
 export default function StakeItem(props: Props) {

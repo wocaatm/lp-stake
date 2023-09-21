@@ -6,6 +6,7 @@ import Loading from './loading'
 
 interface Props extends Refresh {
   stakeLpTokenList: string[]
+  poolId: number
 }
 
 export default function ClaimBtn(props: Props) {
@@ -14,7 +15,7 @@ export default function ClaimBtn(props: Props) {
     address: LpStake.address,
     abi: LpStake.abi,
     functionName: 'claim',
-    args: [0, props.stakeLpTokenList, props.stakeLpTokenList]
+    args: [props.poolId, props.stakeLpTokenList, props.stakeLpTokenList]
   })
   const { data, write } = useContractWrite(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
