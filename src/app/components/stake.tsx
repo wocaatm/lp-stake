@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { alchemyI } from '../config'
-import { readContracts, useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import { readContracts, useAccount, useContractRead } from 'wagmi'
 import Image from 'next/image'
 import StakeItem from './stakeItem'
 import { MamiStake, LpStake, Lmc } from '../config/contract'
@@ -20,6 +20,7 @@ interface Props extends Refresh {
   needLmcAmount: number
   nftImage: string
   nftName: string
+  abi: any
 }
 
 const isStakedFetch = {
@@ -66,44 +67,25 @@ async function checkOfficalStaked(list: NftInfo[], poolId: number, sharePoolId: 
 }
 
 // check lp stake
-async function checkLpStaked(list: NftInfo[], nftAddress: string, wallet: string) {
+async function checkLpStaked(list: NftInfo[], nftAddress: string, wallet: string, poolId: number) {
   let result = list
   // check lp stake token list
+  const allStakeTokenIds = (await queryUserCollections(LpStake.address, nftAddress)).map(item => item.tokenId)
   const lpIds = await readContract({
     address: LpStake.address,
     abi: LpStake.abi,
-    functionName: 'getStakeTokenIds',
-    args: [nftAddress, wallet]
+    functionName: 'getUserStakeTokenIds',
+    args: [poolId, allStakeTokenIds, wallet]
   })
 
-  let lpStakeList: NftInfo[] = []
-  if (lpIds.length) {
-    lpStakeList = lpIds.map(item => {
-      return {
-        tokenId: item.toString(),
-        isStaked: false,
-        isLpStaked: false,
-      }
-    })
-    const setLpIds = Array.from(new Set([...lpIds]))
-    const lpStakeInfo = await readContracts({
-      contracts: setLpIds.map(item => {
-        return {
-          address: LpStake.address,
-          abi: LpStake.abi,
-          functionName: 'tokenOwner',
-          args: [nftAddress, item]
-        }
-      })
-    })
-
-    lpStakeInfo.forEach((item, index) => {
-      if (item.result as any == wallet) {
-        lpStakeList[index].isLpStaked = true
-      }
-    })
-  }
-  return lpStakeList.filter(item => item.isLpStaked).concat(result)
+  let lpStakeList: NftInfo[] = lpIds.map(item => {
+    return {
+      tokenId: item,
+      isLpStaked: true,
+      isStaked: false,
+    }
+  })
+  return lpStakeList.concat(result)
 }
 
 // query all ssrtool tokenids
@@ -130,7 +112,7 @@ export default function Stake(props: Props) {
           return checkOfficalStaked(list, props.poolId, props.sharePoolId)
         })
         .then(list => {
-          return checkLpStaked(list, props.contractAddress, address)
+          return checkLpStaked(list, props.contractAddress, address, props.poolId)
         })
         .then(list => {
           setLoaded(true)
@@ -204,7 +186,7 @@ export default function Stake(props: Props) {
           <span className='ml-2'>NFT加载中...</span>
         </div> )
       }
-      { data && <div className='bg-zinc-800 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个SSR质押，质押数量多于{maxCount}个会导致质押失败！！</div> }
+      { data && <div className='bg-zinc-800 rounded-lg text-white text-sm p-4 mt-4'>⚠️ 注意，合约中的LMC数量为{ Math.floor(Number(formatEther(data as any))) }个，可提供至多{maxCount}个{props.title}质押，质押数量多于{maxCount}个会导致质押失败！！</div> }
     </div>
   )
 }

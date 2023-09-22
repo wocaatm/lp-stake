@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from "react"
-import type { NftInfo, Refresh } from '../interface'
+import { useEffect } from "react"
+import type { Refresh } from '../interface'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi"
-import { MamiStake, LpStake, SsrTool } from '../config/contract'
+import { LpStake } from '../config/contract'
 import Loading from './loading'
 
 interface Props extends Refresh {

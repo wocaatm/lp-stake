@@ -15,6 +15,8 @@ export default function StakeReward(props: Props) {
     args: [props.poolId, props.stakeLpTokenList]
   })
 
+  console.log('rewardsData', rewardsData)
+
   const precent = useMemo(() => {
     if (rewardsData?.length) {
       const all = formatEther(rewardsData?.[0])

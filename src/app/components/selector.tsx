@@ -27,7 +27,7 @@ export default function Selector(props: Props) {
     }
   }
   return (
-    <div className="fixed inset-0" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={() => { closeSeletor() }}>
+    <div className="fixed inset-0 z-50" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={() => { closeSeletor() }}>
       <div className="bg-white absolute left-0 right-0 bottom-0 p-4 rounded-t-2xl flex flex-col" style={{ maxHeight: '50%' }} onClick={(e) => { e.stopPropagation() } }>
         <p className="text-center font-bold text-lg mb-4">{ props.title }</p>
         

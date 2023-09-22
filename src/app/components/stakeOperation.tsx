@@ -13,6 +13,8 @@ interface Props extends Refresh {
   tokens: NftInfo[]
   poolId: number
   nftName: string
+  abi: any
+  contractAddress: string
 }
 
 export default function StakeOperation(props: Props) {
@@ -25,16 +27,16 @@ export default function StakeOperation(props: Props) {
 
   // approve block
   const { data: isApprovedForAll } = useContractRead({
-    abi: SsrTool.abi,
-    address: SsrTool.address,
+    abi: props.abi,
+    address: props.contractAddress as any,
     functionName: 'isApprovedForAll',
     args: [address, LpStake.address],
   })
 
   // approve nft
   const { config } = usePrepareContractWrite({
-    address: SsrTool.address,
-    abi: SsrTool.abi,
+    abi: props.abi,
+    address: props.contractAddress as any,
     functionName: 'setApprovalForAll',
     args: [LpStake.address, true]
   })
