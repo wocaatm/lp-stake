@@ -78,7 +78,7 @@ async function checkLpStaked(list: NftInfo[], nftAddress: string, wallet: string
     args: [poolId, allStakeTokenIds, wallet]
   })
 
-  let lpStakeList: NftInfo[] = lpIds.map(item => {
+  let lpStakeList: NftInfo[] = lpIds.filter(item => !!item).map(item => {
     return {
       tokenId: item,
       isLpStaked: true,
